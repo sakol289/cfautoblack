@@ -1,0 +1,78 @@
+{
+  "description": "",
+  "id": "86c00627336941e0a71713b7c9ac4c5d",
+  "kind": "zone",
+  "last_updated": "2026-09-15T04:02:39.012305Z",
+  "name": "default",
+  "phase": "http_request_firewall_custom",
+  "rules": [
+    {
+      "action": "skip",
+      "action_parameters": {
+        "phases": [
+          "http_ratelimit",
+          "http_request_firewall_managed",
+          "http_request_sbfm"
+        ],
+        "products": [
+          "zoneLockdown",
+          "uaBlock",
+          "waf",
+          "rateLimit",
+          "securityLevel",
+          "hot",
+          "bic"
+        ],
+        "ruleset": "current"
+      },
+      "description": "skip check host add bot",
+      "enabled": true,
+      "expression": "(cf.client.bot) or (http.request.uri.path in {\"/api/services/v2\" \"/testcybersafebot\" \"/api/\"}) or (http.user_agent contains \"AhrefsBot\") or (http.user_agent contains \"AhrefsSiteAudit\") or (http.user_agent contains \"Alexa Crawler\") or (http.user_agent contains \"Archive.org_bot\") or (http.user_agent contains \"AspiegelBot\") or (http.user_agent contains \"Baiduspider\") or (http.user_agent contains \"Bingbot\") or (http.user_agent contains \"Botify\") or (http.user_agent contains \"Botscraper\") or (http.user_agent contains \"Catchpoint\") or (http.user_agent contains \"Cognitiveseo\") or (http.user_agent contains \"Common Crawl\") or (http.user_agent contains \"DeepCrawl\") or (http.user_agent contains \"Diffbot\") or (http.user_agent contains \"DotBot\") or (http.user_agent contains \"DuckDuckBot\") or (http.user_agent contains \"Exabot\") or (http.user_agent contains \"Findxbot\") or (http.user_agent contains \"Gigablast\") or (http.user_agent contains \"Giraffebot\") or (http.user_agent contains \"Googlebot\") or (http.user_agent contains \"LinkdexBot\") or (http.user_agent contains \"Lipperhey\") or (http.user_agent contains \"Majestic-12 Bot\") or (http.user_agent contains \"MojeekBot\") or (http.user_agent contains \"MozBot\") or (http.user_agent contains \"NetEstate NE Crawler\") or (http.user_agent contains \"OnCrawl\") or (http.user_agent contains \"OpenWebSpider\") or (http.user_agent contains \"OrangeBot\") or (http.user_agent contains \"PetalBot\") or (http.user_agent contains \"PiplBot\") or (http.user_agent contains \"Qwantify\") or (http.user_agent contains \"RyteBot\") or (http.user_agent contains \"Screaming Frog SEO Spider\") or (http.user_agent contains \"Scrubby\") or (http.user_agent contains \"SearchmetricsBot\") or (http.user_agent contains \"SEMrushBot\") or (http.user_agent contains \"SEOENGBot\") or (http.user_agent contains \"SEOkicks-Robot\") or (http.user_agent contains \"SEOkicks\") or (http.user_agent contains \"SEOlyzer\") or (http.user_agent contains \"SerendeputyBot\") or (http.user_agent contains \"SerpstatBot\") or (http.user_agent contains \"SeznamBot\") or (http.user_agent contains \"SISTRIX Crawler\") or (http.user_agent contains \"Sitebulb Crawler\") or (http.user_agent contains \"Slurp Bot\") or (http.user_agent contains \"Sogou Spider\") or (http.user_agent contains \"SpyFuBot\") or (http.user_agent contains \"StormCrawler\") or (http.user_agent contains \"TinEye\") or (http.user_agent contains \"Ubersuggest Bot\") or (http.user_agent contains \"Veoozbot\") or (http.user_agent contains \"WebMeUp\") or (http.user_agent contains \"WorldWideWeb Worm\") or (http.user_agent contains \"XoviBot\") or (http.user_agent contains \"YacyBot\") or (http.user_agent contains \"Yandex Bot\") or (http.user_agent contains \"ZoomInfoBot\") or (http.host in {\"twnewlike.cyber-safe.pro\"}) or (http.request.uri.path wildcard r\"/wp-admin/*\") or (ip.src in {45.91.134.54}) or (http.request.uri wildcard r\"/api/*\") or (http.request.uri wildcard r\"/smarthealth_proxy.php/*\")",
+      "id": "550c607bc6794563bd56194d4969b720",
+      "last_updated": "2025-09-24T06:28:33.294001Z",
+      "logging": {
+        "enabled": true
+      },
+      "ref": "550c607bc6794563bd56194d4969b720",
+      "version": "606"
+    },
+    {
+      "action": "block",
+      "description": "Block",
+      "enabled": false,
+      "expression": "(ip.geoip.continent in {\"T1\"}) or (http.host in {\":443\"}) or (cf.threat_score ge 1)",
+      "id": "6fd18fbdaec64e29bb4ce17d85d67dde",
+      "last_updated": "2026-08-27T08:11:45.571129Z",
+      "ref": "6fd18fbdaec64e29bb4ce17d85d67dde",
+      "version": "631"
+    },
+    {
+      "action": "skip",
+      "action_parameters": {
+        "ruleset": "current"
+      },
+      "description": "log",
+      "enabled": false,
+      "expression": "(http.request.version in {\"HTTP/1.0\" \"HTTP/1.1\" \"HTTP/1.2\" \"HTTP/2\" \"HTTP/3\" \"SPDY/3.1\"})",
+      "id": "75b0c501d3764b0daff1885b3537c0ce",
+      "last_updated": "2025-05-16T04:20:00.944646Z",
+      "logging": {
+        "enabled": true
+      },
+      "ref": "75b0c501d3764b0daff1885b3537c0ce",
+      "version": "300"
+    },
+    {
+      "action": "challenge",
+      "description": "uam",
+      "enabled": false,
+      "expression": "(http.request.version in {\"HTTP/1.0\" \"HTTP/1.1\" \"HTTP/1.2\" \"HTTP/2\" \"HTTP/3\" \"SPDY/3.1\"})",
+      "id": "f82657f106f94504aea1d140c7a05ef0",
+      "last_updated": "2026-08-27T08:11:49.111922Z",
+      "ref": "f82657f106f94504aea1d140c7a05ef0",
+      "version": "1067"
+    }
+  ],
+  "source": "firewall_custom",
+  "version": "1281"
+}

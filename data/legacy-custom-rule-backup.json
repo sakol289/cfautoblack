@@ -1,0 +1,13 @@
+{
+  "rulesetId": "86c00627336941e0a71713b7c9ac4c5d",
+  "rule": {
+    "action": "block",
+    "description": "dstat automatic IP blacklist",
+    "enabled": false,
+    "expression": "ip.src in $black",
+    "id": "29ab3515944d4e5ab75cd91d8eaf970e",
+    "last_updated": "2026-09-15T03:53:48.980973Z",
+    "ref": "29ab3515944d4e5ab75cd91d8eaf970e",
+    "version": "2"
+  }
+}

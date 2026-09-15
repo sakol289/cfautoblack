@@ -1,0 +1,29 @@
+<!doctype html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Protection / Traffic monitor</title><link rel="stylesheet" href="/style.css?v=20260915-catchall"></head><body>
+<header><a class="brand" href="/">Protection<span>▥</span></a><span class="divider"></span><span class="muted">AUTO PROTECTION</span><span class="header-end"><i></i> SYSTEM ONLINE</span></header>
+<main><div class="eyebrow">NETWORK / OVERVIEW</div><section class="heading"><div><h1>Protection control.</h1><p>ดูทราฟฟิก รายการแบน และประวัติการป้องกันจาก Cloudflare</p></div><span id="clock" class="mono"></span></section>
+<section class="panel auto-challenge-panel">
+<div class="panel-heading"><div><h2>Challenge อัตโนมัติเมื่อเว็บล่ม</h2><p>เลือกเว็บไซต์ใน zone นี้ · ตรวจแยกทุก 30 วินาที · Challenge เฉพาะเว็บที่ล่ม</p></div><label class="auto-switch"><input type="checkbox" id="auto-challenge-enabled" disabled> เปิดโหมดอัตโนมัติ</label></div>
+<p class="split-note" id="auto-challenge-status" role="status">กำลังโหลดสถานะ…</p>
+<p class="split-note">เปิด Challenge เมื่อ health path ของเว็บนั้นตอบ 5xx หรือเชื่อมต่อไม่ได้ 2 รอบติดกัน · ปิดเมื่อเว็บปกติและทราฟฟิกต่ำกว่า 6,000 req/min 3 รอบติดกัน โดยเปิดอย่างน้อย 2 นาที · ปิดสวิตช์นี้จะปิด Challenge ที่ระบบนี้ดูแลด้วย</p>
+<label class="rule-id-label">UAM / Challenge Rule ID <input id="challenge-rule-id" placeholder="เว้นว่างให้ระบบสร้างกฎเอง" autocomplete="off"></label><p class="split-note">Rule ID ของ custom rule ใน zone นี้ (ไม่ใช่ Zone ID) · รองรับ Interactive / JS / Managed Challenge · ระบบจะควบคุม expression และสถานะของกฎนี้ โดยเก็บสำเนากฎเดิมไว้ · ปิดโหมดอัตโนมัติก่อนเปลี่ยน ID ที่กำลังใช้งาน</p><div id="challenge-targets"></div>
+<div class="challenge-actions"><button id="challenge-add" type="button">เพิ่มเว็บไซต์</button><button id="challenge-save" type="button">บันทึกรายการเว็บ</button><span id="challenge-settings-note" role="status"></span></div>
+<p class="split-note">ชื่อเว็บไม่ต้องใส่ https:// · Health path เช่น /probe หรือ /health ต้องตอบ 200 (เลือกตรวจ JSON ok:true ได้) · Challenge ครอบคลุม GET/HEAD ของเว็บนั้น ยกเว้น health path · ปิดการตรวจหรือลบเว็บแล้วบันทึก จะปลด Challenge ของเว็บนั้นด้วย</p>
+<p class="split-note" id="auto-challenge-event"></p>
+</section>
+<section class="panel traffic-split">
+<div class="panel-heading"><div><h2>ทราฟฟิกแยกตามสถานะ IP</h2><p>แต่ละจุด = requests ย้อนหลัง 60 วินาที · ดึง CF ทุก 30 วินาที · เก็บกราฟระหว่างเปิดดู</p></div></div>
+<div class="ban-metrics" id="split-metrics"></div>
+<div class="chart-wrap"><canvas id="split-chart" role="img" aria-label="กราฟซ้อนแยก request ตามสถานะ IP ตารางด้านล่างแสดงค่าล่าสุด"></canvas></div>
+<p id="split-status" role="status" class="split-note">กำลังโหลดข้อมูล Cloudflare…</p>
+<p class="split-note">“แบนแล้ว” คือ request จาก IP ที่มีกฎแบนตอนเก็บจุดนั้น ไม่ใช่จำนวนที่ยืนยันว่าบล็อกสำเร็จ · “ไม่พบในการตรวจล่าสุด” ไม่ได้แปลว่า Cloudflare ไม่ตรวจ · ข้อมูลอาจ sampled และล่าช้า</p>
+<div class="ban-table"><table><thead><tr><th>เวลาเก็บจุด</th><th>IP แบนแล้ว</th><th>รอแบน</th><th>ตรวจแล้ว ยังไม่แบน</th><th>ไม่พบในการตรวจล่าสุด</th></tr></thead><tbody id="split-samples"></tbody></table></div>
+</section>
+<section class="panel ban-panel">
+<div class="panel-heading"><div><h2>Cloudflare bans <span class="tag">AUTO BLOCK</span></h2><p id="protection-status" role="status">กำลังอ่านสถานะ…</p><p>หน้าอัปเดตทุก 3 วินาที · ตรวจทุก 15 วินาที · >300 req/60s หรือ CF DDoS Block ≥3 ครั้ง/3 นาที · ข้อมูลมีความหน่วง</p></div><span id="ban-connection" class="tag">CONNECTING</span></div>
+<div class="ban-metrics"><div><span>แบนใน zone</span><strong id="ban-active">—</strong></div><div><span>dstat ดูแล</span><strong id="ban-managed">—</strong></div><div><span>ใช้โควตาบัญชีโดยประมาณ</span><strong id="ban-quota">—</strong></div><div><span>รอแบน</span><strong id="ban-candidates">—</strong></div></div>
+<div class="ban-controls"><label for="ban-search">ค้นหา IP <input id="ban-search" type="search" placeholder="IPv4 / IPv6" autocomplete="off"></label><span id="ban-sync">รอ sync Cloudflare</span></div>
+<div class="ban-table"><table><thead><tr><th>IP ADDRESS</th><th>แบนเมื่อ</th><th>เหตุผล</th><th>ผู้ดูแล</th></tr></thead><tbody id="ban-rows"></tbody></table></div>
+<div class="ban-controls"><span id="ban-page-label">—</span><div><button id="ban-prev">← ก่อนหน้า</button> <button id="ban-next">ถัดไป →</button></div></div>
+<div class="panel-heading"><div><h2>ประวัติแบน / ปลดแบน</h2><p>เก็บ 200 เหตุการณ์ล่าสุด · ปลดแบนเก่าสุดเฉพาะเมื่อใกล้เต็ม</p></div></div><div class="ban-table"><table><thead><tr><th>เวลา</th><th>รายการ</th><th>IP</th><th>รายละเอียด</th></tr></thead><tbody id="ban-events"></tbody></table></div>
+</section>
+<footer>ระบบป้องกันทำงานแยกจาก dstat</footer></main><script src="/app.js" type="module"></script></body></html>

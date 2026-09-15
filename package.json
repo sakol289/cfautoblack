@@ -1,0 +1,12 @@
+{
+  "name": "protection-system",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js",
+    "setup": "node --env-file-if-exists=.env scripts/setup-protection.js"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
